@@ -7,8 +7,9 @@
 # Licence: GPL - http://www.fsf.org/licenses/gpl.txt
 #############################################################
 # 20160422 <contact at christian-lauf dot info>
-#	   Add parameter -u/--uri= to specify location of server-status handler
-#          For system where this was changed purposely
+#         Add parameter -u/--uri= to specify location of server-status handler
+#         For system where this was changed purposely
+#
 # 20090514 <public at frank4dd dot com> v1.6
 #          Add support for URL access through a web proxy
 #          and the https (SSL) connection method.
@@ -44,7 +45,7 @@ my %ERRORS=('OK'=>0,'WARNING'=>1,'CRITICAL'=>2,'UNKNOWN'=>3,'DEPENDENT'=>4);
 
 # Globals
 
-my $Version='1.6';
+my $Version='1.7';
 my $Name=$0;
 
 my $o_host =		undef; 		  # hostname 
