@@ -270,7 +270,9 @@ if ( $http_response->is_success() ) {
 				push (@bad_members, $member);
 			# Only active or disabled balancer members with state OK are added to good_members
 			} elsif ( ($activation eq 'ACT') || ($activation eq 'DIS') ) {
-				if ( ($state !~ /^OK/) && ($state ne 'N/A') ) {
+				# print "State is: $state\n";
+				# old: if ( ($state !~ /^OK/) && ($state ne 'N/A') ) {
+				if ( ($state ne 'OK') && ($state ne 'OK/IDLE') ) {
 					push (@bad_members, $member);
 				} else {
 					push (@good_members, $member);
@@ -317,8 +319,11 @@ if ( $http_response->is_success() ) {
 				logD( "STATE for $member: $state / $activation");
 				if ( $activation ne 'ACT' ) {
 					push (@bad_members, $member);
-				} elsif ( $activation eq 'ACT' ) {
-					if ( ($state !~ /^OK/) && ($state ne 'N/A') ) {
+				# Only active or disabled balancer members with state OK are added to good_members
+				} elsif ( ($activation eq 'ACT') || ($activation eq 'DIS') ) {
+					# print "State is: $state\n";
+					# old: if ( ($state !~ /^OK/) && ($state ne 'N/A') ) {
+					if ( ($state ne 'OK') && ($state ne 'OK/IDLE') ) {
 						push (@bad_members, $member);
 					} else {
 						push (@good_members, $member);
