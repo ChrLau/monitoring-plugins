@@ -1,10 +1,14 @@
 #! /usr/bin/perl -wT
 
 #
-# check_jmxproxy.pl 
+# check_jmxproxy.pl - Version 1.1.0
+# Java 8 ready! (TM)
 #
-# Notice: This is check_jmxproxy.pl from Oliver Faenger
-# Which can be found on, for example: https://exchange.icinga.org/exchange/check_jmxproxy/
+# Notice:
+# This is check_jmxproxy.pl originally from Oliver Faenger and modified by Christian Lauf
+# The original can be found on, for example: https://exchange.icinga.org/exchange/check_jmxproxy/
+# My modified versions is available at:
+# https://github.com/ChrLau/monitoring-plugins/blob/master/check_jmxproxy.pl
 #
 # There is a second plugin with the same name from Christopher Schultz, that can be found on:
 # http://wiki.apache.org/tomcat/tools/check_jmxproxy.pl
@@ -37,9 +41,9 @@
 #
 # April 2016: Christian Lauf <contact AT christian-lauf.info>
 #
-# Modified RegEx in Line 181 to handle negative and 0 values.
-# Starting with Java8 the PermGen is obsolete in favour of the metaspace
-# Metaspace has the default value of -1 which means: unlimited and an init value of 0
+# Modified RegEx for memory to handle negative and 0 values.
+# Starting with Java8 the PermGen is obsolete in favour of the metaspace.
+# Metaspace has the default value of -1 which means: unlimited and an init value of 0.
 #
 # Additionally change "use lib" to /usr/lib/nagios/plugins for debian systems
 #
