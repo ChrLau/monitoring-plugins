@@ -3,6 +3,14 @@
 #
 # check_jmxproxy.pl 
 #
+# Notice: This is check_jmxproxy.pl from Oliver Faenger
+# Which can be found on, for example: https://exchange.icinga.org/exchange/check_jmxproxy/
+#
+# There is a second plugin with the same name from Christopher Schultz, that can be found on:
+# http://wiki.apache.org/tomcat/tools/check_jmxproxy.pl
+# But that plugin has no performance data output. So don't get confused ;-)
+# 
+# Description:
 # A Nagios plugin (script) that queries mbean information through tomcats
 # JMXProxyServlet, parses the result and returns name-value pairs for
 # values of type integer (values of type integer inside of type
@@ -29,7 +37,7 @@
 #
 # April 2016: Christian Lauf <contact AT christian-lauf.info>
 #
-# Modified RegEx in Line 164 to handle negative and 0 values.
+# Modified RegEx in Line 181 to handle negative and 0 values.
 # Starting with Java8 the PermGen is obsolete in favour of the metaspace
 # Metaspace has the default value of -1 which means: unlimited and an init value of 0
 #
