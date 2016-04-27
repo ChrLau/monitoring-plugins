@@ -168,6 +168,8 @@ if ($response->is_success) {
       @compData = split ",", $compDataContent;
       # split it off
       foreach my $comp (@compData) {
+      	# For reference, old RegEx:
+      	# ($qryname, $qryvalue) = ($comp =~ /\s*(.*)=(\d+).*/);
         ($qryname, $qryvalue) = ($comp =~ /\s*(.*)=(-?\d+).*/);
         $qryResult{$compname. "_". $qryname}=$qryvalue;
       }
