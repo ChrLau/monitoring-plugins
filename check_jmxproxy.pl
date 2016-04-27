@@ -36,9 +36,7 @@
 #
 # Security notice:
 # ================
-# One should always keep in mind, that enabling read access to jmxproxy
-# allows also write access to the beans.
-#
+# One should always keep in mind, that enabling read access to jmxproxy allows also write access to the beans.
 # 
 # Installation:
 # =============
