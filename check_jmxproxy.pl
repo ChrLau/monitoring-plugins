@@ -50,7 +50,7 @@
 # Version 1.1:	2016 Christian Lauf <contact AT christian-lauf.info>
 #		https://github.com/ChrLau/monitoring-plugins/blob/master/check_jmxproxy.pl
 #		Added more comments, version history & Changelog, etc.
-# 		Modified RegEx for memory to handle negative and 0 values.
+# 		Modified RegExes to handle negative and 0 values.
 #		  Starting with Java8 the PermGen is obsolete in favour of the metaspace.
 #		  Metaspace has the default value of -1 which means: unlimited and an init value of 0.
 #		Additionally change "use lib" to /usr/lib/nagios/plugins for debian systems
