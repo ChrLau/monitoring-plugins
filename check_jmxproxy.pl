@@ -180,7 +180,9 @@ if ($response->is_success) {
   # get name-value pairs
   @lines = split "\n", $webcontent;
   for ($i=4 ; $i<$#lines ; $i++) {
-    if ( ($qryname, $qryvalue) = ($lines[$i] =~ /^(.*): (\d+)/)) {
+    # For reference, old RegEx:
+    # if ( ($qryname, $qryvalue) = ($lines[$i] =~ /^(.*): (\d+)/)) {
+    if ( ($qryname, $qryvalue) = ($lines[$i] =~ /^(.*): (-?\d+)/)) {
       $qryResult{$qryname}=$qryvalue;
     }
     # CompositeData?
