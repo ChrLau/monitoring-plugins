@@ -5,6 +5,7 @@
 # Java 8 ready! (TM)
 #
 # Notice:
+# =======
 # This is check_jmxproxy.pl originally from Oliver Faenger and modified by Christian Lauf
 # The original can be found on, for example: https://exchange.icinga.org/exchange/check_jmxproxy/
 # My modified versions is available at:
@@ -15,6 +16,7 @@
 # But that plugin has no performance data output. So don't get confused ;-)
 # 
 # Description:
+# ============
 # A Nagios plugin (script) that queries mbean information through tomcats
 # JMXProxyServlet, parses the result and returns name-value pairs for
 # values of type integer (values of type integer inside of type
@@ -27,28 +29,37 @@
 # sometimes it is easier to make HTTP requests from nagios to tomcat servers
 # than to enable jmx communication through firewalls.
 #
-# See manager-howto.html
-# (http://tomcat.apache.org/tomcat-6.0-doc/manager-howto.html) from tomcat
-# documentation for how to enable and use jmxproxy.
+# See manager-howto.html from tomcat documentation for how to enable and use jmxproxy.
+# Tomcat 6: http://tomcat.apache.org/tomcat-6.0-doc/manager-howto.html#Using_the_JMX_Proxy_Servlet
+# Tomcat 7: http://tomcat.apache.org/tomcat-7.0-doc/manager-howto.html#Using_the_JMX_Proxy_Servlet
+# Tomcat 8: http://tomcat.apache.org/tomcat-8.0-doc/manager-howto.html#Using_the_JMX_Proxy_Servlet
 #
+# Security notice:
+# ================
 # One should always keep in mind, that enabling read access to jmxproxy
 # allows also write access to the beans.
 #
-# Installation: Expand lib path to directory where utils.pm resides
+# 
+# Installation:
+# =============
+# Expand lib path to directory where utils.pm resides
 # (mostly plugin dir, see below).
 #
-# Copyright (c) 2009 Oliver Faenger
+# Version history & Changelog:
+# ============================
+# Version 1.0:	2009 Oliver Faenger
+#		https://exchange.icinga.org/exchange/check_jmxproxy/
+# Version 1.1:	2016 Christian Lauf <contact AT christian-lauf.info>
+#		https://github.com/ChrLau/monitoring-plugins/blob/master/check_jmxproxy.pl
+#		Added more comments, version history & Changelog, etc.
+# 		Modified RegEx for memory to handle negative and 0 values.
+#		  Starting with Java8 the PermGen is obsolete in favour of the metaspace.
+#		  Metaspace has the default value of -1 which means: unlimited and an init value of 0.
+#		Additionally change "use lib" to /usr/lib/nagios/plugins for debian systems
 #
-# April 2016: Christian Lauf <contact AT christian-lauf.info>
-#
-# Modified RegEx for memory to handle negative and 0 values.
-# Starting with Java8 the PermGen is obsolete in favour of the metaspace.
-# Metaspace has the default value of -1 which means: unlimited and an init value of 0.
-#
-# Additionally change "use lib" to /usr/lib/nagios/plugins for debian systems
-#
-#
-# License GPL
+# License:
+# ========
+# GPLv2 or later
 
 use strict;
 use Getopt::Long;
