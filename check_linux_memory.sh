@@ -2,8 +2,9 @@
 # 
 # Plugin to check system memory
 # by hugme (nagios@hugme.org)
+# You can find my checks here: https://github.com/hugme/Nag_checks
 # Nagios script to check memory usage on linux server
-# version 1.1.1
+# version 1.3.0
 # 
 ##########################################################
 
@@ -17,8 +18,8 @@ print_help() {
 cat << EOF
 Linux Memory Plugin for Nagios
 Copyright (c) hugme (nagios@hugme.org)
-Version: 1.1.1
-Last Modified: 10-18-2010
+Version: 1.2.0
+Last Modified: 10-07-2014
 License: This software can be used for free unless I meet you, then you owe me lunch.
 
 Usage: check_linux_memory -w [warning %] -c [critical %]
@@ -27,8 +28,8 @@ Options:
  -w [0-99]		= Your warning %. 20 means 20% of your memory can remain before a warning alarm. Do not use the % sign.
  -c [0-99]		= Your critical %. 10 means 10% of your memory can remain before a critical alarm. Do not use the % sign.
  -d [K,M,G,T]	= divider K=kilobytes, M=megabytes, G=gigabytes, T=terabytes
- -f		= Include cached memory as free memory when calculating your percentage free
-
+ -f		= Included for backwards compatability to older verserions
+ -n		= Don't Include cached memory as free memory when calculating your percentage free
 EOF
 	}
 
@@ -44,15 +45,15 @@ invalid_type() {
 
 
 while test -n "$1"; do
-	case $1 in
-		--help) print_help ; exit 0 ;;
-		-h) print_help ; exit 0 ;;
-		-w) WARN=$2; shift ;;
-		-c) CRIT=$2; shift ;;
-		-d) DIV=$2; shift ;;
-		-f) FC=1 ;;
-	esac
-	shift
+ case $1 in
+  --help) print_help ; exit 0 ;;
+  -h) print_help ; exit 0 ;;
+  -w) WARN="$2"; shift ;;
+  -c) CRIT="$2"; shift ;;
+  -d) DIV="$2"; shift ;;
+  -n) NC=1 ;;
+ esac
+ shift
 done
 
 ##############################################
@@ -68,11 +69,11 @@ done
 ## Check user input
 ##############################################
 
-echo $WARN | grep -v [0-9.] > /dev/null && invalid_type warning
-echo $CRIT | grep -v [0-9.] > /dev/null && invalid_type critical
-[ "${WARN%.*}" -ge 100 ] && invalid_type warning
-[ "${CRIT%.*}" -ge 100 ] && invalid_type critical
-[ "${CRIT%.*}" -gt "${WARN%.*}" ] && invalid_type critical
+[ ! -z `echo $WARN | tr -d [:digit:]` ] && invalid_type "Warning: Warning value can only contain numbers"
+[ ! -z `echo $CRIT | tr -d [:digit:]` ] && invalid_type "Critical: Critical value can only contain numbers"
+[ "${WARN%.*}" -ge 100 ] && invalid_type "Warning: Warning must be smaller than 100%"
+[ "${CRIT%.*}" -ge 100 ] && invalid_type "Critical: Critical must be smaller than 100%"
+[ "${CRIT%.*}" -gt "${WARN%.*}" ] && invalid_type "Critical: Your Warning must be Higher than your Critical"
 
 case $DIV in
 	k|K) DIVNUM=1;;
@@ -94,14 +95,14 @@ esac
 ## Print the information
 ##############################################
 
-RESULT=$(awk -v warn=$WARN -v crit=$CRIT -v div=$DIV -v divnum=$DIVNUM -v fc=$FC '/^MemTotal:/ { total=$2 }
+RESULT=$(awk -v warn=$WARN -v crit=$CRIT -v div=$DIV -v divnum=$DIVNUM -v nc=$NC '/^MemTotal:/ { total=$2 }
 /^MemTotal:/ { tot=$2 }
 /^MemFree:/ { free=$2 }
 /^Buffers:/ { buff=$2 }
 /^Cached:/ { cache=$2 }
 /^Active:/ { active=$2 }
 /^Inactive:/ { inactive=$2 }
-END { if ( fc == 1 ) { free=free+cache }
+END { if ( nc != 1 ) { free=free+cache+buff }
 	{ freeperct=free/tot*100 }
 	if ( freeperct > warn ) { result="OK" ; xit="0"}
 	if ( freeperct <= warn ) {
